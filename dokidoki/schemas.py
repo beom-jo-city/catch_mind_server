@@ -6,7 +6,8 @@ from pydantic import BaseModel
 class AugmentationRequest(BaseModel):
     augmentation: str
 
-class AugmentationResponse(BaseModel):
+class Response(BaseModel):
+    statusCode: int
     message: str
     
 class PredictResult(SQLModel, table=True):
@@ -24,11 +25,14 @@ class PredictResponse(BaseModel):
 class Leaderboard(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     nickname: str
-    score: float
+    total_score: int
+    submission_time: str
+
 
 class LeaderboardRequest(BaseModel):
     nickname: str
-    score: float
+    total_score: int
+    submission_time: str
 
 class LeaderboardResponse(BaseModel):
     rank: int
