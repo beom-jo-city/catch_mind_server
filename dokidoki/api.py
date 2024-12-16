@@ -3,7 +3,7 @@ from sqlmodel import Session
 from crud import get_leaderboard, add_score
 from database import get_session
 from pydantic import BaseModel
-from schemas import LeaderboardRequest, LeaderboardResponse, PredictRequest, PredictResponse, AugmentationRequest, AugmentationResponse
+from schemas import LeaderboardRequest, LeaderboardResponse, PredictRequest, PredictResponse, AugmentationRequest, Response
 from PIL import Image
 import os
 from utils import apply_augmentation
@@ -27,7 +27,7 @@ def set_augmentation(request: AugmentationRequest):
 async def receive_augmentation(request: AugmentationRequest):
     try:
         set_augmentation(request)
-        return AugmentationResponse(message="Keyword and augmentation received successfully")
+        return Response(message="Keyword and augmentation received successfully")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process request: {e}")
 
@@ -37,8 +37,8 @@ def read_leaderboard(session: Session = Depends(get_session)) -> list[Leaderboar
     return get_leaderboard(session)
 
 # 닉네임-스코어 db에 저장 
-@router.post("/leaderboard")
-def create_score(request: LeaderboardRequest, session: Session = Depends(get_session)) -> LeaderboardResponse:
+@router.post("/submit-userinfo")
+def create_score(request: LeaderboardRequest, session: Session = Depends(get_session)) -> Response:
     return add_score(session, request)
 
 # 사용자가 그린 이미지를 가져와서 증강거쳐서서 모델에 넣고 예측 하고 결과까지 한번에 얻기 
