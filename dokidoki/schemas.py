@@ -31,7 +31,7 @@ class LeaderboardRequest(BaseModel):
     score: float
 
 class LeaderboardResponse(BaseModel):
-    id: int
+    rank: int
     nickname: str
     score: float
 
