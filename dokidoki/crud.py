@@ -18,12 +18,14 @@ from schemas import Leaderboard, LeaderboardRequest, LeaderboardResponse, Predic
 # 리더보드 상위 15개의 데이터 반환환 rank 추가 
 def get_leaderboard(session: Session, limit: int = 10):
     try:
-        # query = session.query(Leaderboard).order_by(Leaderboard.score.desc()).limit(15)
-        # leaderboard = query.all()
-        # return leaderboard
         query = select(Leaderboard).order_by(Leaderboard.score.desc()).limit(limit)
         # ㄴ 스코어에 대해 내림차순 정렬해서 10개 끊어서 선택 
-        return session.exec(query).all() # 쿼리를 실행하고 정렬된 데이터를 리스트 형태로 반환 
+        arr = session.exec(query).all() # 쿼리를 실행하고 정렬된 데이터를 리스트 형태로 반환 
+
+        return [
+            LeaderboardResponse(rank=i+1, nickname=bundle.nickname, score=bundle.score)
+            for i, bundle in enumerate(arr)
+        ]
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch leaderboard: {e}")
     
