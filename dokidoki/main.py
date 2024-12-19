@@ -5,6 +5,8 @@ from loguru import logger
 from sqlmodel import SQLModel
 from database import engine
 from api import router  
+from model import load_model
+
 
 # Lifespan 설정
 @asynccontextmanager
@@ -16,8 +18,8 @@ async def lifespan(app: FastAPI):
         logger.info(f"Tables in metadata: {SQLModel.metadata.tables.keys()}") 
 
         # TODO: 모델 로드 구현 (현재는 주석 처리)
-        # logger.info("Loading the AI model...")
-        # load_model("path/to/your/model")  # 실제 경로로 대체
+        logger.info("Loading the AI model...")
+        load_model(r"C:\Users\KimGunwoo\Desktop\catch_my_mind\model\best_model.pt")  # 실제 경로로 대체
     except Exception as e:
         logger.error(f"Error during app startup: {e}")
         raise e  # 예외 발생 시 FastAPI 실행 중단

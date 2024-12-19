@@ -2,8 +2,10 @@
 # from tkinter import Image
 from sqlmodel import SQLModel, Field
 from pydantic import BaseModel 
+from typing import List
 
 class AugmentationRequest(BaseModel):
+    keyword: str
     augmentation: str
 
 class Response(BaseModel):
