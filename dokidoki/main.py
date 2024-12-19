@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
         SQLModel.metadata.create_all(engine)
         logger.info(f"Tables in metadata: {SQLModel.metadata.tables.keys()}") 
 
-        # TODO: 모델 로드 구현 (현재는 주석 처리)
+        # 모델 로드 구현
         logger.info("Loading the AI model...")
         load_model(r"C:\Users\KimGunwoo\Desktop\catch_my_mind\model\best_model.pt")  # 실제 경로로 대체
     except Exception as e:
